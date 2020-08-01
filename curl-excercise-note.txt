@@ -1,0 +1,44 @@
+Access Details:
+
+Developers and network engineers access the IOS XE on CSR Latest Code Always On Sandbox directly using the following information:
+
+    CSR1000V Host: ios-xe-mgmt-latest.cisco.com
+        SSH Port: 8181
+        NETCONF Port: 10000
+        RESTCONF Ports: 9443 (HTTPS) 
+    Username: developer
+    Password: C1sco12345
+
+
+Begin the exercise.
+
+    Open Postman, and select the environment for the infrastructure you are using. The environment provides variables that can be leveraged within the API calls to make it easier to use the same API between different devices. The variables in the environment are:
+        host: The IP or FQDN for the network device
+        port: The port RESTCONF/HTTPS is available
+        username: The administrative username
+        password: The administrative password
+
+Retrieving Current Configuration Details
+
+First let's retrieve the current list of interfaces configured on our device.
+
+    Select the GET Read ietf-interfaces list of interfaces request from the list. This RESTCONF request will query the device for the list of interfaces using the ietf-interfaces model. Explore the details of the request in Postman.
+        URI: https://{{host}}:{{port}}/restconf/data/ietf-interfaces:interfaces
+        Method: GET
+        Authorization: Basic username/password
+        Headers:
+            Accept: application/yang-data+json
+
+
+curl -k --include --header 'Content-Type:application/json' --header 'Accept: application/json' --user developer:C1sco12345 --request POST https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/ietf-interfaces:interfaces
+
+curl -i -k -H "Accept:application/yang-data+json"-u "developer:C1sco12345" -X POST https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/ietf-interfaces:interfaces
+
+
+curl -v -k -u developer:C1sco12345 -H "Content-Type: application/yang-data+xml" -H "Accept:application/yang-data+json" -X GET https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/ietf-interfaces:interfaces
+
+curl -v -k -u developer:C1sco12345 -H "Content-Type: application/yang-data+xml" -H "Accept:application/yang-data+xml" -X GET https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/ietf-interfaces:interfaces
+
+
+curl -v -k -u developer:C1sco12345 -H "Content-Type: application/yang-data+xml" -H "Accept:application/yang-data+json" -X GET https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/ietf-restconf-monitoring:restconf-state/capabilities
+
